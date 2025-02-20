@@ -2,10 +2,7 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    "typeRoots": [
-      "./node_modules/@types",
-      "./type-definitions-folder",
-    ]
+    "typeRoots": ["./node_modules/@types", "./type-definitions-folder"]
   },
   "include": ["src/styles/**/*.d.ts", "styled-components.d.ts"]
 }
