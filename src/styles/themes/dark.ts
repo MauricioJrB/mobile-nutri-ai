@@ -23,7 +23,7 @@ export const dark: DefaultTheme = {
       placeholder: {
         primary: "#303030",
         secondary: "#3E1FF41",
-        size: 50,
+        size: 18,
       },
       width: 200,
       height: 54,

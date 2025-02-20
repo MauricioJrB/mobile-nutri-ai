@@ -23,7 +23,7 @@ export const light: DefaultTheme = {
       placeholder: {
         primary: "#303030",
         secondary: "3E1FF41",
-        size: 20,
+        size: 18,
       },
       width: 274,
       height: 54,
