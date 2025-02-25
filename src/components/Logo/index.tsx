@@ -1,5 +1,6 @@
 import React from "react";
 import { Image } from "./styles";
+import logo from "../../assets/nutri-ai-dark.png";
 
 interface Props {
   width: number;
@@ -7,12 +8,7 @@ interface Props {
 }
 
 const Logo = ({ width, height }: Props) => {
-  return (
-    <Image
-      source={require("../../assets/nutri-ai.png")}
-      style={{ width, height }}
-    />
-  );
+  return <Image source={logo} style={{ width, height }} />;
 };
 
 export default Logo;
