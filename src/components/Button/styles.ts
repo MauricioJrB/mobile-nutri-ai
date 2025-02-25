@@ -6,8 +6,8 @@ export const Container = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.button.background};
   width: ${({ theme }) => theme.colors.button.width};
   height: ${({ theme }) => theme.colors.button.height};
-  border-top-right-radius: 18px;
-  border-bottom-left-radius: 18px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
 `;
 
 export const Title = styled.Text`
