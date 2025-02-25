@@ -27,12 +27,16 @@ interface Input {
     color: string;
     font: string;
     size: number;
-  },
+  };
   placeholder: {
     primary: string;
     secondary: string;
     font: string;
     size: number;
+    icon: {
+      primary: string;
+      secondary: string;
+    };
   };
   width: number;
   height: number;
