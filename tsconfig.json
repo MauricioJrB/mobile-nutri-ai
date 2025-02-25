@@ -4,5 +4,5 @@
     "strict": true,
     "typeRoots": ["./node_modules/@types", "./type-definitions-folder"]
   },
-  "include": ["src/styles/**/*.d.ts", "styled-components.d.ts"]
+  "include": ["src/styles/**/*.d.ts", "styled-components.d.ts", "images.d.ts"]
 }
