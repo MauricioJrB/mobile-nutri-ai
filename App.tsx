@@ -1,8 +1,4 @@
-import Router from "./src/routes/Router";
-import React, { useState } from "react";
-import { ThemeProvider } from "styled-components/native";
-import colorTheme from "./src/styles/themes/index";
-import { TouchableOpacity, useColorScheme } from "react-native";
+import { Router } from "./src/routes/Router";
 
 import {
   useFonts,
@@ -13,9 +9,12 @@ import {
   KumbhSans_700Bold,
 } from "@expo-google-fonts/kumbh-sans";
 import { AuthProvider } from "./src/contexts/Auth";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ThemeProvider } from "./src/contexts/Theme";
+import { StatusBar } from "react-native";
 
-const App = () => {
-  useFonts({
+export function App() {
+  const [fontsLoaded] = useFonts({
     KumbhSans_300Light,
     KumbhSans_400Regular,
     KumbhSans_500Medium,
@@ -23,21 +22,16 @@ const App = () => {
     KumbhSans_700Bold,
   });
 
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
-  const theme = isDarkTheme ? colorTheme.dark : colorTheme.light;
-
-  // example
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-  };
+  if (!fontsLoaded) return null;
 
   return (
-    <AuthProvider>
-      <ThemeProvider theme={theme}>
-        <Router />
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <StatusBar translucent backgroundColor="transparent" />
+          <Router />
+        </AuthProvider>
       </ThemeProvider>
-    </AuthProvider>
+    </SafeAreaProvider>
   );
-};
-
-export default App;
+}
