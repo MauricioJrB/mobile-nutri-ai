@@ -1,66 +1,105 @@
-import React, { useContext, useEffect } from "react";
-import { createContext, useState } from "react";
-import { authService } from "../../services/Auth";
-import { Alert } from "react-native";
+import {
+  loginWithEmailAndPassword,
+  registerWithEmailAndPassword,
+  useGoogleAuth,
+} from "../../services/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 export interface AuthData {
-  token: string | null;
+  id: string;
   email: string;
+  name: string;
+  photoUrl: string | null;
+  token: string | null;
 }
 
 interface AuthContextData {
-  authData?: AuthData;
-  signIn: (email: string, password: string) => Promise<AuthData>;
-  signOut: () => Promise<void>;
+  authData?: AuthData | null;
+  logout: () => Promise<void>;
+  loading: boolean;
+  promptGoogleLogin: () => void;
+  registerWithEmail: (
+    name: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
+  loginWithEmail: (email: string, password: string) => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextData>(
-  {} as AuthContextData,
-);
+export const AuthContext = createContext<AuthContextData>({
+  authData: null,
+  logout: async () => {},
+  loading: false,
+  promptGoogleLogin: () => {},
+  registerWithEmail: async () => {},
+  loginWithEmail: async () => {},
+});
 
-export const AuthProvider = ({ children }) => {
-  const [authData, setAuth] = useState<AuthData>();
-  const [loading, setLoading] = useState(false);
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [authData, setAuth] = useState<AuthData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const { user, promptAsync } = useGoogleAuth();
 
   useEffect(() => {
     loadFromStorage();
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      setAuth(user);
+      AsyncStorage.setItem("@AuthData", JSON.stringify(user));
+    }
+  }, [user]);
+
+  const loginWithEmail = async (email: string, password: string) => {
+    const auth = await loginWithEmailAndPassword(email, password);
+    setAuth(auth);
+    await AsyncStorage.setItem("@AuthData", JSON.stringify(auth));
+  };
+
+  const registerWithEmail = async (
+    name: string,
+    email: string,
+    password: string,
+  ) => {
+    await registerWithEmailAndPassword(name, email, password);
+  };
+
   const loadFromStorage = async () => {
-    const auth = await AsyncStorage.getItem("@AuthData");
-    if (auth) {
-      setAuth(JSON.parse(auth));
-    }
-  };
-
-  const signIn = async (email: string, password: string): Promise<AuthData> => {
+    setLoading(true);
     try {
-      const auth = await authService.login(email, password);
-      setAuth(auth);
-      AsyncStorage.setItem("@AuthData", JSON.stringify(auth));
-
-      return auth;
+      const auth = await AsyncStorage.getItem("@AuthData");
+      if (auth) setAuth(JSON.parse(auth));
     } catch (error) {
-      Alert.alert(error.message, "tente novamente");
-      throw new Error("Login failed");
+      console.log("Erro ao carregar usuário do AsyncStorage:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const signOut = async (): Promise<void> => {
-    setAuth(undefined);
+  const logout = async (): Promise<void> => {
+    setAuth(null);
     await AsyncStorage.removeItem("@AuthData");
-    return;
   };
 
   return (
-    <AuthContext.Provider value={{ authData, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{
+        authData,
+        logout,
+        loading,
+        promptGoogleLogin: promptAsync,
+        registerWithEmail,
+        loginWithEmail,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  return context;
+  return useContext(AuthContext);
 };
