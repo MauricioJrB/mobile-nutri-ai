@@ -2,11 +2,13 @@
   "expo": {
     "name": "mobile",
     "slug": "mobile",
+    "scheme": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "platforms": ["ios", "android"],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -19,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.mauriciojunioor.mobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "66c5847a-265b-4bed-bc9a-bd8c0c423ec3"
+      }
+    },
+    "owner": "mauriciojunioor"
   }
 }
