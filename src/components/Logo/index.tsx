@@ -1,14 +1,22 @@
-import React from "react";
-import { Image } from "./styles";
-import logo from "../../assets/nutri-ai-dark.png";
+import { Image } from "react-native";
+import darkLogo from "../../assets/nutri-ai-dark.png";
+import lightLogo from "../../assets/nutri-ai-light.png";
+import { useTheme } from "../../contexts/Theme";
 
 interface Props {
   width: number;
   height: number;
 }
 
-const Logo = ({ width, height }: Props) => {
-  return <Image source={logo} style={{ width, height }} />;
-};
+export function Logo({ width, height }: Props) {
+  const { theme } = useTheme();
+  const isDark = theme.mode === "dark";
 
-export default Logo;
+  return (
+    <Image
+      source={isDark ? darkLogo : lightLogo}
+      style={{ width, height }}
+      resizeMode="contain"
+    />
+  );
+}
