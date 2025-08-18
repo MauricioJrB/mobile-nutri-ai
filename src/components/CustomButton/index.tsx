@@ -1,18 +1,17 @@
-import React from "react";
 import { TouchableOpacity, Text } from "react-native";
-import { Container, Title } from "./styles";
-
+import { useTheme } from "../../contexts/Theme";
+import { styles as createStyles } from "./styles";
 interface Props {
   title: string;
   onPress: () => void;
 }
 
-const CustomButton = ({ title , onPress }: Props) => {
+export function CustomButton({ title, onPress }: Props) {
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
   return (
-    <Container onPress={onPress}>
-      <Title>{title}</Title>
-    </Container>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <Text style={styles.title}>{title}</Text>
+    </TouchableOpacity>
   );
-};
-
-export default CustomButton;
+}
