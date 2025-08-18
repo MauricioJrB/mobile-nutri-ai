@@ -1,83 +1,101 @@
-import styled from "styled-components/native";
+import { AppTheme } from "../../types/themeTypes";
+import { StyleSheet } from "react-native";
 
-export const Container = styled.View`
-  flex: 1;
-  background-color: ${({ theme }) => theme.colors.screen.background};
-  align-items: center;
-  justify-content: space-around;
-`;
-
-export const Section = styled.View`
-  background-color: #9e9e9e;
-  width: 320px;
-  height: 420;
-  border-top-right-radius: 50px;
-  border-bottom-left-radius: 50px;
-  align-items: center;
-  padding: 25px;
-`;
-
-export const Title = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.bold};
-  color: #d8ff0b;
-  font-size: 25px;
-  margin-bottom: 30px;
-`;
-
-export const ButtonForgotPassword = styled.TouchableOpacity`
-  margin-bottom: 20px;
-  margin-top: 5px;
-`;
-
-export const TextForgotPassword = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.bold};
-  font-size: 18px;
-  color: #d8ff0b;
-`;
-
-export const TextStyled = styled.Text`
-  margin-top: 12px;
-  color: ${({ theme }) => theme.colors.input.label.color};
-  font-family: ${({ theme }) => theme.fonts.light};
-  font-size: 18px;
-`;
-
-export const TextSingUp = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
-  color: #ffffff;
-  font-size: 18px;
-`;
-
-export const ContainerSocialMedia = styled.View`
-  flex-direction: row;
-  gap: 20px;
-`;
-
-export const ButtonSocialMedia = styled.TouchableOpacity`
-  background-color: #ffffff;
-  justify-content: center;
-  align-items: center;
-  width: 71px;
-  height: 54px;
-  border-radius: 15px;
-`;
-
-export const ContainerSignUp = styled.View`
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-`;
-
-export const ButtonSignUp = styled.TouchableOpacity``;
-
-export const ButtonText = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.semiBold};
-  font-size: 18px;
-  color: #d8ff0b;
-`;
-
-export const Image = styled.Image`
-  width: 29px;
-  height: 31px;
-`;
+export const styles = (theme: AppTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.screen.background,
+      alignItems: "center",
+      justifyContent: "space-around",
+    },
+    section: {
+      backgroundColor: "#9e9e9e",
+      width: 320,
+      minHeight: 385,
+      borderTopRightRadius: 50,
+      borderBottomLeftRadius: 50,
+      alignItems: "center",
+      padding: 25,
+    },
+    title: {
+      fontFamily: theme.fonts.bold,
+      color: "#d8ff0b",
+      fontSize: 25,
+      marginBottom: 30,
+    },
+    forgotButton: {
+      marginBottom: 15,
+      marginTop: 1,
+    },
+    forgotText: {
+      fontFamily: theme.fonts.bold,
+      fontSize: 18,
+      color: theme.colors.header.background,
+    },
+    containerButton: {
+      paddingTop: 2,
+    },
+    orTextDark: {
+      fontFamily: theme.fonts.light,
+      fontSize: 18,
+      color: "#FFFFFF",
+    },
+    orTextLight: {
+      fontFamily: theme.fonts.light,
+      fontSize: 18,
+      color: "#0A0A0A",
+    },
+    socialContainer: {
+      flexDirection: "row",
+      gap: 20,
+    },
+    socialButton: {
+      backgroundColor: "#ffffff",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 71,
+      height: 54,
+      borderRadius: 15,
+    },
+    socialIcon: {
+      width: 29,
+      height: 31,
+    },
+    registerContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 10,
+    },
+    registerTextDark: {
+      fontFamily: theme.fonts.medium,
+      fontSize: 18,
+      color: "#ffffff",
+    },
+    registerTextLight: {
+      fontFamily: theme.fonts.medium,
+      fontSize: 18,
+      color: "#0A0A0A",
+    },
+    registerButtonText: {
+      fontFamily: theme.fonts.bold,
+      fontSize: 18,
+      color: theme.colors.header.background,
+    },
+    registerButtonDark: {
+      backgroundColor: "#ffffff",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 71,
+      height: 54,
+      borderRadius: 15,
+    },
+    registerButtonLight: {
+      backgroundColor: "#1E1E1E",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 71,
+      height: 54,
+      borderRadius: 15,
+    },
+  });
