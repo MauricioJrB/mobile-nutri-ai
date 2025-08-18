@@ -1,41 +1,35 @@
 import React from "react";
 
-import Logo from "../../components/Logo";
-import InputForm from "../../components/InputForm";
-import CustomButton from "../../components/CustomButton";
+import { Logo } from "../../components/Logo";
+import { InputForm } from "../../components/InputForm";
+import { CustomButton } from "../../components/CustomButton";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFormSchema } from "../../schemas/loginFormSchema";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
-import {
-  AuthStackParamList,
-  RootStackParamList,
-} from "../../types/RootStackParamList";
+import { AuthStackParamList } from "../../types/RootStackParamList";
+
+import { styles as createStyles } from "./styles";
+
 import { useAuth } from "../../contexts/Auth";
+import { useTheme } from "../../contexts/Theme";
+import iconGoogle from "../../assets/icon-google.png";
 
 import {
-  ButtonSignUp,
-  ButtonSocialMedia,
-  ButtonText,
-  Container,
-  ContainerSignUp,
-  ContainerSocialMedia,
-  ButtonForgotPassword,
-  TextForgotPassword,
   Image,
-  Section,
-  TextSingUp,
-  TextStyled,
-  Title,
-} from "./styles";
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 type AuthNavigationProp = StackNavigationProp<AuthStackParamList>;
 
 type LoginData = z.infer<typeof loginFormSchema>;
 
-const Login = () => {
+export function Login() {
   const {
     control,
     handleSubmit,
@@ -48,25 +42,42 @@ const Login = () => {
     },
   });
 
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
+
   const navigation = useNavigation<AuthNavigationProp>();
 
-  const handleNavigateToSignUp = () => {
-    navigation.navigate("SignUp");
+  const { promptGoogleLogin, loginWithEmail } = useAuth();
+
+  const isDark = theme.mode === "dark";
+
+  const handleNavigateToRegister = () => {
+    navigation.navigate("Register");
   };
 
-  const { signIn } = useAuth();
+  const handleGoogleLogin = async () => {
+    try {
+      await promptGoogleLogin();
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log("Error to login with Google", error.message);
+      }
+    }
+  };
 
-  const handleLogin = async ({ email, password }: LoginData) => {
-    if (email && password) {
-      await signIn(email, password);
+  const handleLoginWithEmailAndPassword = async (data: LoginData) => {
+    try {
+      await loginWithEmail(data.email, data.password);
+    } catch (error) {
+      console.log("Error to login with Email/Password: ", error);
     }
   };
 
   return (
-    <Container>
+    <SafeAreaView style={styles.container}>
       <Logo width={150} height={150} />
-      <Section>
-        <Title>Faça login na sua conta</Title>
+      <View style={styles.section}>
+        <Text style={styles.title}>Faça login na sua conta</Text>
         <InputForm
           label="E-mail"
           name="email"
@@ -86,36 +97,43 @@ const Login = () => {
           icon={"lock"}
         />
 
-        <ButtonForgotPassword>
-          <TextForgotPassword>Esqueceu a senha?</TextForgotPassword>
-        </ButtonForgotPassword>
+        <TouchableOpacity style={styles.forgotButton}>
+          <Text style={styles.forgotText}>Esqueceu a senha?</Text>
+        </TouchableOpacity>
 
-        <CustomButton
-          title={"Login"}
-          onPress={handleSubmit(handleLogin)}
-        ></CustomButton>
-      </Section>
+        <View style={styles.containerButton}>
+          <CustomButton
+            title={"Login"}
+            onPress={handleSubmit(handleLoginWithEmailAndPassword)}
+          ></CustomButton>
+        </View>
+      </View>
 
-      <TextStyled>Ou faça login com</TextStyled>
+      <Text style={isDark ? styles.orTextDark : styles.orTextLight}>
+        Ou faça login com
+      </Text>
 
-      <ContainerSocialMedia>
-        <ButtonSocialMedia>
-          <Image source={require("../../assets/icon-google.png")} />
-        </ButtonSocialMedia>
+      <View style={styles.socialContainer}>
+        <TouchableOpacity
+          style={
+            isDark ? styles.registerButtonDark : styles.registerButtonLight
+          }
+          onPress={handleGoogleLogin}
+        >
+          <Image style={styles.socialIcon} source={iconGoogle} />
+        </TouchableOpacity>
+      </View>
 
-        <ButtonSocialMedia>
-          <Image source={require("../../assets/icon-facebook.png")} />
-        </ButtonSocialMedia>
-      </ContainerSocialMedia>
-
-      <ContainerSignUp>
-        <TextSingUp>Não tem uma conta?</TextSingUp>
-        <ButtonSignUp onPress={handleNavigateToSignUp}>
-          <ButtonText>Sign Up</ButtonText>
-        </ButtonSignUp>
-      </ContainerSignUp>
-    </Container>
+      <View style={styles.registerContainer}>
+        <Text
+          style={isDark ? styles.registerTextDark : styles.registerTextLight}
+        >
+          Não tem uma conta?
+        </Text>
+        <TouchableOpacity onPress={handleNavigateToRegister}>
+          <Text style={styles.registerButtonText}>Registrar-se</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
-};
-
-export default Login;
+}

@@ -2,13 +2,13 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { AuthStackParamList } from "../types/RootStackParamList";
 
-import Login from "../screens/Login";
-import Initial from "../screens/Initial";
-import SignUp from "../screens/SignUp";
+import { Login } from "../screens/Login";
+import { Register } from "../screens/Register";
+import { Initial } from "../screens/Initial";
 
 const Stack = createStackNavigator<AuthStackParamList>();
 
-const AuthStack = () => {
+export function AuthStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -26,14 +26,12 @@ const AuthStack = () => {
         }}
       />
       <Stack.Screen
-        name="SignUp"
-        component={SignUp}
+        name="Register"
+        component={Register}
         options={{
           headerShown: false,
         }}
       />
     </Stack.Navigator>
   );
-};
-
-export default AuthStack;
+}

@@ -8,5 +8,5 @@
       "src/styles/themes"
     ]
   },
-  "include": ["src/styles/themes/styled-components.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

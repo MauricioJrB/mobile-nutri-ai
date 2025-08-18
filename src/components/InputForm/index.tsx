@@ -1,68 +1,80 @@
-import React, { InputHTMLAttributes } from "react";
-import { KeyboardTypeOptions, Text } from "react-native";
-import { Controller, FieldError } from "react-hook-form";
-
+import React, { useState } from "react";
+import { Controller } from "react-hook-form";
+import { Entypo, Feather } from "@expo/vector-icons";
 import {
-  Container,
-  Content,
-  ErrorText,
-  IconContainer,
-  IconStyled,
-  InputStyled,
-  Label,
-} from "./styles";
+  Text,
+  TextInput,
+  View,
+  KeyboardTypeOptions,
+  TouchableOpacity,
+} from "react-native";
+import { useTheme } from "../../contexts/Theme";
+import { styles as createStyles } from "./styles";
 
-import { Feather } from "@expo/vector-icons";
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps {
   label: string;
   icon: keyof typeof Feather.glyphMap;
   name: string;
   control: any;
   placeholder?: string;
-  hasIcon?: boolean;
-  rules?: string;
   error?: string;
   keyboardType: KeyboardTypeOptions;
+  secureTextEntry?: boolean;
 }
 
-const InputForm = ({
+export const InputForm = ({
   label,
   icon,
   name,
   control,
   placeholder,
-  rules,
   error,
   keyboardType,
+  secureTextEntry,
 }: InputProps) => {
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(true);
+
+  const showToggleIcon = secureTextEntry;
+
   return (
-    <Container>
-      <Label>{label}</Label>
-      <Content>
-        {icon && (
-          <IconContainer>
-            <IconStyled name={icon} size={20} />
-          </IconContainer>
-        )}
+    <View style={styles.container}>
+      <Text style={styles.label}>{label}</Text>
+      <View style={styles.content}>
+        <View style={styles.iconContainer}>
+          <Feather name={icon} size={20} style={styles.icon} />
+        </View>
         <Controller
           control={control}
           name={name}
           render={({ field: { onChange, onBlur, value } }) => (
-            <InputStyled
+            <TextInput
+              style={styles.input}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
               placeholder={placeholder}
-              hasIcon={icon ? true : false}
+              placeholderTextColor={theme.colors.input.placeholder.primary}
               keyboardType={keyboardType}
+              secureTextEntry={secureTextEntry && isPasswordVisible}
             />
           )}
         />
-      </Content>
-      <ErrorText>{error && <Text>{error}</Text>}</ErrorText>
-    </Container>
+        {showToggleIcon && (
+          <TouchableOpacity
+            style={styles.iconRightContainer}
+            onPress={() => setIsPasswordVisible((prev) => !prev)}
+          >
+            <Entypo
+              name={isPasswordVisible ? "eye" : "eye-with-line"}
+              size={20}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+      {error && <Text style={styles.errorText}>{error}</Text>}
+    </View>
   );
 };
-
-export default InputForm;

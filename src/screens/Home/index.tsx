@@ -1,17 +1,14 @@
-import React, { useContext } from "react";
+import { useAuth } from "../../contexts/Auth";
 import { Text, View } from "react-native";
-import CustomButton from "../../components/CustomButton";
-import { AuthContext } from "../../contexts/Auth";
+import { CustomButton } from "../../components/CustomButton";
 
-const Home: React.FC = () => {
-  const { signOut } = useContext(AuthContext);
+export function Home() {
+  const { logout } = useAuth();
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Home Screen</Text>
-      <CustomButton title="Logout" onPress={() => signOut()} />
+      <CustomButton title="Logout" onPress={() => logout()} />
     </View>
   );
-};
-
-export default Home;
+}

@@ -1,7 +1,8 @@
-import { DefaultTheme } from "styled-components/native";
+import { AppTheme } from "../../types/themeTypes";
 import { fonts } from "./fonts";
 
-export const light: DefaultTheme = {
+export const light: AppTheme = {
+  mode: "light",
   colors: {
     screen: {
       background: "#E6E6E6",
@@ -9,12 +10,12 @@ export const light: DefaultTheme = {
     header: {
       background: "#9E9E9E",
       title: "#303030",
+      username: "#D8FF0B",
     },
     input: {
       background: {
         primary: "#F0F0F0",
-        secondary:
-          "linear-gradient(to bottom, rgba(10, 10, 10, 0.75) 0%, #D8FF0B 100%",
+        secondary: "#D8FF0B",
       },
       label: {
         color: "#D8FF0B",
@@ -25,7 +26,7 @@ export const light: DefaultTheme = {
         secondary: "#D8FF0B",
         size: 18,
         icon: {
-          primary: "#FFFFFF",
+          primary: "#303030",
           secondary: "#D8FF0B",
         },
       },
@@ -40,6 +41,20 @@ export const light: DefaultTheme = {
       width: 274,
       height: 54,
     },
+    gradient: {
+      primary: "#9E9E9E",
+      secondary: "#E6E6E6",
+    },
+    navbar: {
+      background: {
+        primary: "#D8FF0B",
+        secondary: "#E6E6E6",
+      },
+      icon: {
+        primary: "#D8FF0B",
+        secondary: "#303030",
+      },
+    },
   },
-  fonts: fonts,
+  fonts,
 };

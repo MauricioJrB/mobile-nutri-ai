@@ -1,8 +1,12 @@
-import styled from "styled-components/native";
+import { StyleSheet } from "react-native";
+import { AppTheme } from "../../types/themeTypes";
 
-export const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: #0A0A0A;
-`;
+export const styles = (theme: AppTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.colors.screen.background,
+    },
+  });

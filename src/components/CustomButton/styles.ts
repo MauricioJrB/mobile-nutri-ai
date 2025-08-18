@@ -1,16 +1,19 @@
-import styled from "styled-components/native";
+import { StyleSheet } from "react-native";
+import { AppTheme } from "../../types/themeTypes";
 
-export const Container = styled.TouchableOpacity`
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.colors.button.background};
-  width: ${({ theme }) => theme.colors.button.width};
-  height: ${({ theme }) => theme.colors.button.height};
-  border-top-right-radius: 25px;
-  border-bottom-left-radius: 25px;
-`;
-
-export const Title = styled.Text`
-  font-family: ${({ theme }) => theme.colors.button.font};
-  font-size: ${({ theme }) => theme.colors.button.size};
-`;
+export const styles = (theme: AppTheme) =>
+  StyleSheet.create({
+    container: {
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: theme.colors.button.background,
+      width: theme.colors.button.width,
+      height: theme.colors.button.height,
+      borderTopRightRadius: 25,
+      borderBottomLeftRadius: 25,
+    },
+    title: {
+      fontFamily: theme.colors.button.font,
+      fontSize: theme.colors.button.size,
+    },
+  });

@@ -1,4 +1,6 @@
-export const fonts = {
+import { ThemeFonts } from "../../types/themeTypes";
+
+export const fonts: ThemeFonts = {
   light: "KumbhSans_300Light",
   regular: "KumbhSans_400Regular",
   medium: "KumbhSans_500Medium",
