@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
+import { Logo } from "../../components/Logo";
+import { useTheme } from "../../contexts/Theme";
+import { useEffect } from "react";
+import { SafeAreaView } from "react-native";
+import { AuthStackParamList } from "../../types/RootStackParamList";
 import { StackNavigationProp } from "@react-navigation/stack";
-import {
-  AuthStackParamList,
-  RootStackParamList,
-} from "../../types/RootStackParamList";
-import Logo from "../../components/Logo";
-
-import { Container } from "./styles";
+import { styles as createStyles } from "./styles";
 
 type InitialNavigationProp = StackNavigationProp<AuthStackParamList, "Initial">;
 
@@ -14,7 +12,10 @@ type Props = {
   navigation: InitialNavigationProp;
 };
 
-const Initial = ({ navigation }: Props) => {
+export function Initial({ navigation }: Props) {
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.navigate("Login");
@@ -23,10 +24,8 @@ const Initial = ({ navigation }: Props) => {
   }, [navigation]);
 
   return (
-    <Container>
+    <SafeAreaView style={styles.container}>
       <Logo width={250} height={250} />
-    </Container>
+    </SafeAreaView>
   );
-};
-
-export default Initial;
+}
